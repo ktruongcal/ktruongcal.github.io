@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kenton Truong — Data Science Portfolio</title>
+  <meta name="description" content="UC Berkeley data science student. Backend, data engineering, and ML projects." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;450;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:        #fafaf7;
+      --bg-card:   #ffffff;
+      --ink:       #0f0f0e;
+      --ink-soft:  #535351;
+      --ink-faint: #a8a7a2;
+      --rule:      #e8e7e1;
+      --rule-soft: #f1f0ea;
+      --accent:    #c2410c;       /* burnt orange */
+      --accent-soft: #fff1e6;
+      --mono:      'JetBrains Mono', ui-monospace, monospace;
+      --sans:      'Inter', system-ui, sans-serif;
+      --serif:     'Fraunces', Georgia, serif;
+      --max-w:     960px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* ---------- layout primitives ---------- */
+    .wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    section {
+      padding: 80px 0;
+      border-top: 1px solid var(--rule);
+    }
+    section:first-of-type { border-top: none; }
+
+    .label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--ink-faint);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    /* ---------- header / hero ---------- */
+    header.hero {
+      padding: 96px 0 72px;
+      border-top: none;
+    }
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 64px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+    .hero-top .nav a {
+      color: var(--ink-soft);
+      text-decoration: none;
+      margin-left: 24px;
+      transition: color 0.15s;
+    }
+    .hero-top .nav a:hover { color: var(--accent); }
+    .hero-top .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hero-top .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    }
+
+    h1.name {
+      font-family: var(--serif);
+      font-size: clamp(48px, 8vw, 88px);
+      font-weight: 500;
+      line-height: 1.0;
+      letter-spacing: -0.025em;
+      margin-bottom: 32px;
+    }
+    h1.name em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-blurb {
+      font-size: 19px;
+      line-height: 1.55;
+      max-width: 620px;
+      color: var(--ink-soft);
+      margin-bottom: 40px;
+    }
+    .hero-blurb strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px 40px;
+      font-family: var(--mono);
+      font-size: 13px;
+    }
+    .hero-meta div span:first-child {
+      color: var(--ink-faint);
+      margin-right: 8px;
+    }
+    .hero-meta a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .hero-meta a:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* ---------- about ---------- */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 64px;
+    }
+    @media (max-width: 700px) {
+      .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    }
+    .about-grid h2 {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 32px;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+    .about-grid p {
+      color: var(--ink-soft);
+      margin-bottom: 16px;
+    }
+    .about-grid p:last-child { margin-bottom: 0; }
+
+    /* ---------- projects ---------- */
+    .projects { display: flex; flex-direction: column; gap: 0; }
+
+    .project {
+      padding: 36px 0;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 28px;
+      align-items: start;
+      transition: padding-left 0.25s;
+    }
+    .project:hover { padding-left: 12px; }
+    .project:last-child { border-bottom: none; }
+
+    .project-num {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--ink-faint);
+      padding-top: 4px;
+    }
+    .project-body h3 {
+      font-family: var(--serif);
+      font-size: 26px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .project-body p {
+      color: var(--ink-soft);
+      font-size: 15.5px;
+      line-height: 1.6;
+      max-width: 620px;
+      margin-bottom: 14px;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .project-tags span {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 3px 9px;
+      background: var(--rule-soft);
+      color: var(--ink-soft);
+      border-radius: 3px;
+    }
+    .project-link {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+      padding-top: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: gap 0.2s;
+    }
+    .project-link:hover { gap: 8px; }
+    .project-link::after { content: "→"; }
+
+    @media (max-width: 700px) {
+      .project { grid-template-columns: 40px 1fr; }
+      .project-link { grid-column: 2; padding-top: 0; }
+    }
+
+    /* ---------- experience ---------- */
+    .exp-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 32px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .exp-item:last-child { border-bottom: none; }
+    @media (max-width: 700px) {
+      .exp-item { grid-template-columns: 1fr; gap: 8px; }
+    }
+    .exp-when {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ink-faint);
+      padding-top: 4px;
+    }
+    .exp-role {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 19px;
+      margin-bottom: 2px;
+    }
+    .exp-org {
+      font-size: 14px;
+      color: var(--ink-soft);
+      margin-bottom: 12px;
+    }
+    .exp-detail {
+      color: var(--ink-soft);
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+
+    /* ---------- skills ---------- */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 36px;
+    }
+    .skill-group h4 {
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-faint);
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .skill-group ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .skill-group li {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--ink);
+    }
+    .skill-group li:not(:last-child)::after {
+      content: ",";
+      color: var(--ink-faint);
+    }
+
+    /* ---------- footer ---------- */
+    footer {
+      padding: 64px 0 48px;
+      border-top: 1px solid var(--rule);
+    }
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    footer h2 {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 40px;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      max-width: 480px;
+    }
+    footer h2 a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 2px solid var(--accent-soft);
+      transition: border-color 0.2s;
+    }
+    footer h2 a:hover { border-color: var(--accent); }
+    .footer-meta {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ink-faint);
+      text-align: right;
+    }
+    .footer-meta a {
+      display: block;
+      color: var(--ink-soft);
+      text-decoration: none;
+      margin-bottom: 4px;
+    }
+    .footer-meta a:hover { color: var(--accent); }
+
+    /* ---------- subtle on-load animation ---------- */
+    .hero > * { opacity: 0; transform: translateY(8px); animation: rise 0.7s ease forwards; }
+    .hero > *:nth-child(1) { animation-delay: 0.05s; }
+    .hero > *:nth-child(2) { animation-delay: 0.15s; }
+    .hero > *:nth-child(3) { animation-delay: 0.25s; }
+    .hero > *:nth-child(4) { animation-delay: 0.35s; }
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ─────────────── HERO ─────────────── -->
+  <header class="hero">
+    <div class="hero-top">
+      <div class="status"><span class="dot"></span> Open to summer / new-grad roles</div>
+      <nav class="nav">
+        <a href="#projects">work</a>
+        <a href="#experience">experience</a>
+        <a href="#contact">contact</a>
+      </nav>
+    </div>
+
+    <h1 class="name">Kenton Truong<em>.</em></h1>
+
+    <p class="hero-blurb">
+      Data Science student at <strong>UC Berkeley</strong>, graduating May 2026.
+      I build <strong>backend data pipelines</strong>, <strong>ML workflows</strong>, and the
+      analytical infrastructure underneath them — usually with Python, SQL, and a healthy
+      respect for boring, reliable software.
+    </p>
+
+    <div class="hero-meta">
+      <div><span>email</span><a href="mailto:kentontruong@berkeley.edu">kentontruong@berkeley.edu</a></div>
+      <div><span>linkedin</span><a href="https://linkedin.com/in/kentontruong" target="_blank" rel="noopener">/in/kentontruong</a></div>
+      <div><span>phone</span><span>714.548.2872</span></div>
+    </div>
+  </header>
+
+  <!-- ─────────────── ABOUT ─────────────── -->
+  <section id="about">
+    <div class="label">About</div>
+    <div class="about-grid">
+      <h2>I like the work between the raw data and the dashboard.</h2>
+      <div>
+        <p>
+          My focus is on what happens after the JSON arrives and before someone opens a chart —
+          the part that gets called "plumbing" until it breaks. ETL pipelines, dimensional models,
+          feature engineering, the retry loop that saves the nightly job from a flaky upstream API.
+        </p>
+        <p>
+          I started in IT at MicroCenter deploying networks for small-business clients, which taught
+          me to treat operational reliability as a feature, not an afterthought. I'm now finishing
+          my Data Science degree at Berkeley after transferring from Golden West College.
+        </p>
+        <p>
+          The projects below ship with working code and synthetic data so you can run them locally —
+          they're not screenshots.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── PROJECTS ─────────────── -->
+  <section id="projects">
+    <div class="label">Selected Work</div>
+
+    <div class="projects">
+
+      <div class="project">
+        <div class="project-num">01</div>
+        <div class="project-body">
+          <h3>Shopify Sales &amp; Inventory Pipeline</h3>
+          <p>
+            End-to-end ETL pulling 12 months of e-commerce data through the Shopify REST API into
+            a MySQL star schema. Cleans 200k+ transactional rows (dedup, null SKU resolution,
+            catalog-rename normalization), drops weekly KPI queries from 30s to under 1s, and
+            feeds Tableau dashboards for inventory turnover and sales heatmaps.
+          </p>
+          <div class="project-tags">
+            <span>python</span><span>mysql</span><span>shopify api</span>
+            <span>star schema</span><span>tableau</span>
+          </div>
+        </div>
+        <a class="project-link" href="https://github.com/ktruongcal/shopify-pipeline" target="_blank" rel="noopener">view code</a>
+      </div>
+
+      <div class="project">
+        <div class="project-num">02</div>
+        <div class="project-body">
+          <h3>Customer Churn Prediction Pipeline</h3>
+          <p>
+            ML pipeline that ingests raw customer activity, engineers 20+ behavioral features
+            (recency, rolling 7d/30d windows, trend ratios), and trains a gradient boosting
+            classifier against a logistic regression baseline. Outputs scored predictions and
+            plan-tier retention recommendations for non-technical stakeholders.
+          </p>
+          <div class="project-tags">
+            <span>python</span><span>scikit-learn</span><span>pandas</span>
+            <span>feature engineering</span><span>gradient boosting</span>
+          </div>
+        </div>
+        <a class="project-link" href="https://github.com/ktruongcal/churn-prediction" target="_blank" rel="noopener">view code</a>
+      </div>
+
+      <div class="project">
+        <div class="project-num">03</div>
+        <div class="project-body">
+          <h3>Macronutrient Pattern Analysis</h3>
+          <p>
+            Nutrition data pipeline pulling from the Edamam API and Kaggle datasets into BigQuery
+            with normalized relational schemas. Built a Python retry layer with exponential backoff
+            to absorb upstream flakiness, and SQL transformations using CTEs and window functions
+            to surface meal-level consumption patterns.
+          </p>
+          <div class="project-tags">
+            <span>sql</span><span>r</span><span>bigquery</span>
+            <span>edamam api</span><span>data studio</span>
+          </div>
+        </div>
+        <a class="project-link" href="https://github.com/ktruongcal/macronutrient-analysis" target="_blank" rel="noopener">view code</a>
+      </div>
+
+      <div class="project">
+        <div class="project-num">04</div>
+        <div class="project-body">
+          <h3>A/B Testing Simulation &amp; Statistical Analysis</h3>
+          <p>
+            Monte Carlo engine that runs thousands of controlled experiments with known ground
+            truth to study how sample and effect size impact statistical decisions. Applies
+            t-tests, confidence intervals, and Bayesian comparisons; persists results to SQLite
+            for cross-run comparisons; outputs a decision guide for experiment owners.
+          </p>
+          <div class="project-tags">
+            <span>python</span><span>r</span><span>sqlite</span>
+            <span>bayesian inference</span><span>hypothesis testing</span>
+          </div>
+        </div>
+        <a class="project-link" href="https://github.com/ktruongcal/ab-testing-simulation" target="_blank" rel="noopener">view code</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────── EXPERIENCE ─────────────── -->
+  <section id="experience">
+    <div class="label">Experience</div>
+
+    <div class="exp-item">
+      <div class="exp-when">Apr 2023 — May 2024</div>
+      <div>
+        <div class="exp-role">Computer Network Specialist</div>
+        <div class="exp-org">MicroCenter · Tustin, CA</div>
+        <div class="exp-detail">
+          Deployed servers, switches, VPNs, and firewall configurations for 40+ small business and
+          enterprise clients while maintaining a 94% customer satisfaction rating. Diagnosed
+          recurring infrastructure issues, wrote internal runbooks to reduce escalation volume,
+          and translated client business requirements into concrete networking setups.
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-when">Jul 2025 — Mar 2026</div>
+      <div>
+        <div class="exp-role">Community Living Assistant</div>
+        <div class="exp-org">East Bay Innovations · San Leandro, CA</div>
+        <div class="exp-detail">
+          Maintained structured documentation and shift handoff systems across multi-person care
+          teams in a compliance-heavy setting. Coordinated across interdisciplinary teams while
+          balancing changing priorities and time-sensitive client needs.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── SKILLS ─────────────── -->
+  <section id="skills">
+    <div class="label">Toolbox</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h4>Languages</h4>
+        <ul><li>Python</li><li>SQL</li><li>Java</li><li>C/C++</li><li>R</li></ul>
+      </div>
+      <div class="skill-group">
+        <h4>Backend &amp; Data</h4>
+        <ul>
+          <li>REST APIs</li><li>ETL Pipelines</li><li>Relational Modeling</li>
+          <li>PostgreSQL</li><li>MySQL</li><li>SQLite</li>
+          <li>Snowflake</li><li>BigQuery</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>ML &amp; Stats</h4>
+        <ul>
+          <li>scikit-learn</li><li>pandas</li><li>NumPy</li>
+          <li>Gradient Boosting</li><li>Logistic Regression</li>
+          <li>A/B Testing</li><li>Hypothesis Testing</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Tools</h4>
+        <ul>
+          <li>Git</li><li>Linux</li><li>Jupyter</li>
+          <li>Tableau</li><li>Power BI</li><li>Excel</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── EDUCATION ─────────────── -->
+  <section id="education">
+    <div class="label">Education</div>
+    <div class="exp-item">
+      <div class="exp-when">Aug 2024 — May 2026</div>
+      <div>
+        <div class="exp-role">B.A., Data Science</div>
+        <div class="exp-org">University of California, Berkeley</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-when">Aug 2022 — May 2024</div>
+      <div>
+        <div class="exp-role">A.S., Computer Science</div>
+        <div class="exp-org">Golden West College</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────── CONTACT ─────────────── -->
+  <footer id="contact">
+    <div class="footer-grid">
+      <h2>Let's talk. <a href="mailto:kentontruong@berkeley.edu">kentontruong@berkeley.edu</a></h2>
+      <div class="footer-meta">
+        <a href="https://linkedin.com/in/kentontruong" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://github.com/ktruongcal" target="_blank" rel="noopener">GitHub ↗</a>
+        <div style="margin-top: 12px;">Berkeley, CA</div>
+        <div>Built in plain HTML/CSS</div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
