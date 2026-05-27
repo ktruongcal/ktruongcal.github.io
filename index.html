@@ -1,0 +1,2237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kenton Truong / Portfolio</title>
+  <meta name="description" content="UC Berkeley data science and accounting graduate. Backend pipelines, ML, FP&A, and accounting projects with live results." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;450;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
+  <style>
+    :root {
+      --bg:          #0a0a0b;
+      --bg-card:     #131316;
+      --bg-soft:     #1a1a1e;
+      --bg-elevated: #1f1f23;
+      --ink:         #fafaf9;
+      --ink-soft:    #a1a1aa;
+      --ink-faint:   #71717a;
+      --rule:        #27272a;
+      --rule-soft:   #1f1f23;
+      --accent:      #fb923c;
+      --accent-dim:  #c2410c;
+      --teal:        #2dd4bf;
+      --plum:        #c084fc;
+      --amber:       #fbbf24;
+      --slate:       #94a3b8;
+      --green:       #4ade80;
+      --rose:        #fb7185;
+      --mono:  'JetBrains Mono', ui-monospace, monospace;
+      --sans:  'Inter', system-ui, sans-serif;
+      --serif: 'Instrument Serif', Georgia, serif;
+      --max-w: 1080px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--sans);
+      font-size: 16px; line-height: 1.65;
+      color: var(--ink); background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      background-image:
+        radial-gradient(circle at 15% 0%, rgba(251, 146, 60, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 85% 30%, rgba(45, 212, 191, 0.03) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+    .wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 32px; }
+    section { padding: 96px 0; border-top: 1px solid var(--rule); }
+    section:first-of-type { border-top: none; }
+    .label {
+      font-family: var(--mono);
+      font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.16em;
+      color: var(--accent);
+      margin-bottom: 36px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .label::before {
+      content: ""; display: inline-block;
+      width: 24px; height: 1px; background: var(--accent);
+    }
+
+    /* ============ TAB SWITCHER ============ */
+    .track-switcher {
+      display: inline-flex;
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      padding: 4px;
+      gap: 2px;
+      margin-bottom: 56px;
+    }
+    .track-btn {
+      font-family: var(--mono);
+      font-size: 12px; font-weight: 500;
+      color: var(--ink-soft);
+      background: transparent;
+      border: none;
+      padding: 9px 20px;
+      border-radius: 999px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: color 0.2s, background 0.2s;
+    }
+    .track-btn:hover { color: var(--ink); }
+    .track-btn.active {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    /* ====================================== */
+
+    header.hero { padding: 80px 0 88px; border-top: none; }
+    .hero-top {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 72px;
+      font-family: var(--mono); font-size: 12px; color: var(--ink-faint);
+    }
+    .hero-top .nav a {
+      color: var(--ink-soft); text-decoration: none;
+      margin-left: 22px; transition: color 0.2s;
+    }
+    .hero-top .nav a:hover { color: var(--accent); }
+    .hero-top .nav a:first-child { margin-left: 0; }
+    .hero-top .status { display: inline-flex; align-items: center; gap: 10px; }
+    .hero-top .dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @media (max-width: 640px) {
+      .hero-top { flex-direction: column; align-items: flex-start; gap: 18px; }
+      .hero-top .nav { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+      .hero-top .nav a { margin-left: 0; }
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); }
+      50%      { box-shadow: 0 0 0 7px rgba(16, 185, 129, 0.04); }
+    }
+    h1.name {
+      font-family: var(--serif);
+      font-size: clamp(60px, 10vw, 116px);
+      font-weight: 400; line-height: 0.95;
+      letter-spacing: -0.025em;
+      margin-bottom: 32px;
+      color: var(--ink);
+    }
+    h1.name em {
+      font-style: italic;
+      color: var(--accent);
+      font-weight: 400;
+    }
+    .hero-blurb {
+      font-size: 22px; line-height: 1.5;
+      max-width: 720px;
+      color: var(--ink-soft);
+      margin-bottom: 56px;
+      font-weight: 300;
+      transition: opacity 0.25s;
+    }
+    .hero-blurb strong { color: var(--ink); font-weight: 500; }
+    .hero-meta {
+      display: flex; flex-wrap: wrap;
+      gap: 24px 48px;
+      font-family: var(--mono); font-size: 13px;
+    }
+    .hero-meta div span:first-child {
+      color: var(--ink-faint); margin-right: 10px;
+    }
+    .hero-meta a {
+      color: var(--ink); text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      transition: border-color 0.2s, color 0.2s;
+      padding-bottom: 1px;
+    }
+    .hero-meta a:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* snapshot strip switches with track */
+    .snapshot {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--rule);
+      margin-top: 96px;
+    }
+    .snap-cell {
+      padding: 28px 24px 24px 0;
+      border-right: 1px solid var(--rule);
+    }
+    .snap-cell:last-child { border-right: none; padding-right: 0; }
+    .snap-num {
+      font-family: var(--serif);
+      font-size: 44px; font-weight: 400;
+      line-height: 1; letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      color: var(--ink);
+    }
+    .snap-num .unit {
+      font-family: var(--sans); font-size: 15px;
+      color: var(--ink-faint); font-weight: 400;
+      margin-left: 3px;
+    }
+    .snap-label {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--ink-faint);
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    @media (max-width: 700px) {
+      .snapshot { grid-template-columns: repeat(2, 1fr); }
+      .snap-cell:nth-child(2) { border-right: none; }
+      .snap-cell:nth-child(-n+2) { border-bottom: 1px solid var(--rule); padding-bottom: 24px; }
+      .snap-cell:nth-child(n+3) { padding-top: 24px; }
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 80px;
+    }
+    @media (max-width: 700px) {
+      .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    }
+    .about-grid h2 {
+      font-family: var(--serif);
+      font-weight: 400; font-size: 40px;
+      line-height: 1.15; letter-spacing: -0.02em;
+      color: var(--ink);
+    }
+    .about-grid p {
+      color: var(--ink-soft);
+      margin-bottom: 18px;
+      font-weight: 300;
+    }
+    .about-grid p:last-child { margin-bottom: 0; }
+
+    /* project tracks (only one visible at a time) */
+    .project-track { display: none; }
+    .project-track.active { display: block; }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      margin-bottom: 32px;
+      overflow: hidden;
+      transition: border-color 0.25s;
+    }
+    .project-card:hover { border-color: var(--ink-faint); }
+    .project-header {
+      padding: 36px 40px 28px;
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      gap: 24px;
+      align-items: start;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+    .project-num {
+      font-family: var(--mono);
+      font-size: 13px; color: var(--accent);
+      padding-top: 8px; font-weight: 500;
+    }
+    .project-body h3 {
+      font-family: var(--serif);
+      font-size: 32px; font-weight: 400;
+      letter-spacing: -0.02em; line-height: 1.2;
+      margin-bottom: 14px;
+      color: var(--ink);
+    }
+    .project-body p {
+      color: var(--ink-soft);
+      font-size: 15.5px; line-height: 1.65;
+      max-width: 720px; margin-bottom: 18px;
+      font-weight: 300;
+    }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .project-tags span {
+      font-family: var(--mono); font-size: 11px;
+      padding: 5px 11px;
+      background: var(--bg-elevated);
+      color: var(--ink-soft);
+      border-radius: 4px;
+      border: 1px solid var(--rule);
+    }
+    .project-link {
+      font-family: var(--mono); font-size: 12px;
+      color: var(--accent); text-decoration: none;
+      white-space: nowrap; padding-top: 8px;
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: gap 0.25s, color 0.2s;
+    }
+    .project-link:hover { gap: 10px; color: #fdba74; }
+    .project-link::after { content: "→"; }
+    @media (max-width: 700px) {
+      .project-header { grid-template-columns: 36px 1fr; padding: 28px; }
+      .project-link { grid-column: 2; padding-top: 0; }
+    }
+
+    .project-dash {
+      padding: 32px 40px 36px;
+      background: var(--bg-soft);
+    }
+    .dash-label {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--ink-faint);
+      text-transform: uppercase; letter-spacing: 0.16em;
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .dash-label .live-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.15);
+    }
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .metric {
+      background: var(--bg-elevated);
+      border-radius: 8px;
+      padding: 16px 18px;
+      border: 1px solid var(--rule);
+    }
+    .metric-label {
+      font-family: var(--mono); font-size: 10px;
+      color: var(--ink-faint);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .metric-value {
+      font-family: var(--serif);
+      font-size: 28px; font-weight: 400;
+      letter-spacing: -0.015em; line-height: 1.1;
+      color: var(--ink);
+    }
+    .metric-value .small {
+      font-family: var(--sans); font-size: 13px;
+      color: var(--ink-faint); font-weight: 400;
+      margin-left: 4px;
+    }
+    .metric-value.neg { color: var(--rose); }
+    .metric-value.pos { color: var(--green); }
+    .chart-wrap {
+      background: var(--bg-elevated);
+      border-radius: 8px;
+      padding: 20px 22px 18px;
+      border: 1px solid var(--rule);
+    }
+    .chart-title {
+      font-family: var(--sans); font-size: 13px;
+      font-weight: 500; color: var(--ink);
+      margin-bottom: 4px;
+    }
+    .chart-subtitle {
+      font-family: var(--mono); font-size: 11px;
+      color: var(--ink-faint); margin-bottom: 16px;
+    }
+    .chart-canvas { position: relative; height: 220px; }
+    .chart-canvas.tall { height: 280px; }
+    .charts-2col {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 700px) {
+      .charts-2col { grid-template-columns: 1fr; }
+      .project-dash { padding: 24px; }
+      .project-header { padding: 28px; }
+    }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 40px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .exp-item:last-child { border-bottom: none; }
+    @media (max-width: 700px) {
+      .exp-item { grid-template-columns: 1fr; gap: 8px; padding: 24px 0; }
+    }
+    .exp-when {
+      font-family: var(--mono); font-size: 12px;
+      color: var(--ink-faint); padding-top: 4px;
+    }
+    .exp-role {
+      font-family: var(--serif); font-weight: 400;
+      font-size: 24px; margin-bottom: 4px;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+    }
+    .exp-org { font-size: 14px; color: var(--ink-soft); margin-bottom: 14px; }
+    .exp-detail {
+      color: var(--ink-soft);
+      font-size: 14.5px; line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 44px;
+    }
+    .skill-group h4 {
+      font-family: var(--mono); font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--accent); font-weight: 500;
+      margin-bottom: 16px;
+    }
+    .skill-group ul {
+      list-style: none;
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .skill-group li {
+      font-family: var(--mono); font-size: 13px;
+      color: var(--ink-soft);
+    }
+    .skill-group li:not(:last-child)::after { content: ","; color: var(--ink-faint); }
+
+    footer { padding: 96px 0 64px; border-top: 1px solid var(--rule); }
+    .footer-grid {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      flex-wrap: wrap; gap: 24px;
+    }
+    footer h2 {
+      font-family: var(--serif); font-weight: 400;
+      font-size: 52px; letter-spacing: -0.025em;
+      line-height: 1.1; max-width: 580px;
+      color: var(--ink);
+    }
+    footer h2 a {
+      color: var(--accent); text-decoration: none;
+      border-bottom: 2px solid rgba(251, 146, 60, 0.25);
+      transition: border-color 0.2s;
+    }
+    footer h2 a:hover { border-color: var(--accent); }
+    .footer-meta {
+      font-family: var(--mono); font-size: 12px;
+      color: var(--ink-faint); text-align: right;
+    }
+    .footer-meta a {
+      display: block; color: var(--ink-soft);
+      text-decoration: none; margin-bottom: 6px;
+      transition: color 0.2s;
+    }
+    .footer-meta a:hover { color: var(--accent); }
+
+    .hero > * { opacity: 0; transform: translateY(8px); animation: rise 0.8s ease forwards; }
+    .hero > *:nth-child(1) { animation-delay: 0.05s; }
+    .hero > *:nth-child(2) { animation-delay: 0.15s; }
+    .hero > *:nth-child(3) { animation-delay: 0.25s; }
+    .hero > *:nth-child(4) { animation-delay: 0.35s; }
+    .hero > *:nth-child(5) { animation-delay: 0.45s; }
+    .hero > *:nth-child(6) { animation-delay: 0.55s; }
+    @keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+    /* ═════════════════════ MOBILE RESPONSIVE ═════════════════════ */
+    /* Prevent any horizontal page overflow that would force pinch-zooming */
+    html, body { overflow-x: hidden; max-width: 100%; }
+
+    @media (max-width: 700px) {
+      /* Tighter outer padding so cards have room to breathe */
+      .wrap { padding: 0 20px; }
+      section { padding: 64px 0; }
+      header.hero { padding: 56px 0 64px; }
+
+      /* Hero typography scales down */
+      h1.name { font-size: clamp(44px, 14vw, 68px); margin-bottom: 28px; }
+      .hero-blurb { font-size: 17px; margin-bottom: 40px; }
+      .hero-meta { font-size: 12px; gap: 16px 28px; }
+      .hero-meta a { word-break: break-word; }
+
+      /* Snapshot numbers shrink so they fit */
+      .snap-cell { padding: 20px 12px 16px 0; }
+      .snap-num { font-size: 30px; }
+      .snap-num .unit { font-size: 12px; }
+      .snap-label { font-size: 10px; }
+
+      /* About + section headlines */
+      .about-grid h2 { font-size: 28px; }
+      .label { font-size: 10px; margin-bottom: 24px; }
+
+      /* PROJECT CARDS - the main fix */
+      .project-card { border-radius: 10px; margin-bottom: 20px; }
+      .project-header { padding: 24px 20px 20px; gap: 16px; }
+      .project-dash { padding: 20px 16px; }
+      .project-body h3 { font-size: 22px; }
+      .project-body p { font-size: 14.5px; }
+      .project-num { font-size: 12px; padding-top: 4px; }
+      .project-tags span { font-size: 10px; padding: 3px 8px; }
+
+      /* Metric cards: force 2-column grid so they actually fit */
+      .metrics-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .metric { padding: 12px 14px; }
+      .metric-label { font-size: 9px; margin-bottom: 4px; }
+      .metric-value { font-size: 20px; }
+      .metric-value .small { font-size: 11px; }
+
+      /* Charts: tighter padding and slightly shorter so they fit cleanly */
+      .chart-wrap { padding: 14px 14px 12px; }
+      .chart-title { font-size: 12px; }
+      .chart-subtitle { font-size: 10px; margin-bottom: 12px; }
+      .chart-canvas { height: 200px; }
+      .chart-canvas.tall { height: 240px; }
+      .charts-2col { gap: 8px; }
+
+      /* Skills / experience / education */
+      .skills-grid { gap: 28px; }
+      .exp-role { font-size: 19px; }
+
+      /* Footer */
+      footer { padding: 56px 0 40px; }
+      footer h2 { font-size: 32px; }
+      .footer-grid { flex-direction: column; align-items: flex-start; }
+      .footer-meta { text-align: left; }
+
+      /* Track switcher - make sure both buttons fit */
+      .track-switcher { width: 100%; }
+      .track-btn { flex: 1; font-size: 11px; padding: 9px 12px; }
+    }
+
+    /* Extra-small phones (under 380px) get one more squeeze */
+    @media (max-width: 380px) {
+      .wrap { padding: 0 16px; }
+      h1.name { font-size: 40px; }
+      .snap-num { font-size: 26px; }
+      .metric-value { font-size: 18px; }
+      .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ═══════════ SCROLL REVEAL ═══════════ */
+    /* Elements with .reveal start invisible and slightly down, then fade in on intersect. */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Staggered children inside a .reveal-stagger container */
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal-stagger.is-visible > * {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-stagger.is-visible > *:nth-child(1) { transition-delay: 0.00s; }
+    .reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 0.08s; }
+    .reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 0.16s; }
+    .reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 0.24s; }
+    .reveal-stagger.is-visible > *:nth-child(5) { transition-delay: 0.32s; }
+
+    /* Counters keep their final value visible until JS runs; if JS doesn't load
+       the page still reads correctly. */
+    .counter[data-target] { font-variant-numeric: tabular-nums; }
+
+    /* Respect the user's motion preferences. If they ask for less motion,
+       no fades or rises, just show the content. */
+    @media (prefers-reduced-motion: reduce) {
+      .hero > *,
+      .reveal,
+      .reveal-stagger > * {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
+      }
+      .hero-top .dot { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div class="status"><span class="dot"></span> Open to data, analytics, finance, and accounting roles</div>
+      <nav class="nav">
+        <a href="#projects">work</a>
+        <a href="#experience">experience</a>
+        <a href="#skills">skills</a>
+        <a href="#education">education</a>
+        <a href="#contact">contact</a>
+      </nav>
+    </div>
+
+    <div class="track-switcher" role="tablist" aria-label="Project track">
+      <button class="track-btn active" data-track="ds" role="tab" aria-selected="true">Data &amp; Analytics</button>
+      <button class="track-btn" data-track="fpa" role="tab" aria-selected="false">Finance &amp; Accounting</button>
+    </div>
+
+    <h1 class="name">Kenton Truong<em>.</em></h1>
+
+    <p class="hero-blurb" id="hero-blurb-ds">
+      Data Science graduate from <strong>UC Berkeley</strong>. I build
+      <strong>data pipelines</strong>, <strong>machine learning workflows</strong>, and
+      analytics tools using Python, SQL, and BI/reporting systems to turn raw data
+      into usable business insights.
+    </p>
+
+    <p class="hero-blurb" id="hero-blurb-fpa" style="display:none;">
+      Data Science graduate from <strong>UC Berkeley</strong> with accounting coursework
+      through <strong>WGU</strong>. I focus on <strong>FP&amp;A models</strong>,
+      <strong>variance analysis</strong>, reconciliations, and reporting workflows that
+      connect clean data with clear financial decisions.
+    </p>
+
+    <div class="hero-meta">
+      <div><span>email</span><a href="mailto:ktruong.cal@gmail.com">ktruong.cal@gmail.com</a></div>
+      <div><span>linkedin</span><a href="https://linkedin.com/in/kentontruong" target="_blank" rel="noopener">/in/kentontruong</a></div>
+    </div>
+
+    <div class="snapshot" id="snapshot-ds">
+      <div class="snap-cell"><div class="snap-num"><span class="counter" data-target="200" data-suffix="K+">200</span><span class="unit"></span></div><div class="snap-label">Rows processed</div></div>
+      <div class="snap-cell"><div class="snap-num"><span class="counter" data-target="4">4</span></div><div class="snap-label">Production pipelines</div></div>
+      <div class="snap-cell"><div class="snap-num"><span class="counter" data-target="0.79" data-decimals="2">0.79</span></div><div class="snap-label">Churn model ROC-AUC</div></div>
+      <div class="snap-cell"><div class="snap-num"><span class="counter" data-target="10" data-suffix="K">10K</span></div><div class="snap-label">A/B tests simulated</div></div>
+    </div>
+
+    <div class="snapshot" id="snapshot-fpa" style="display:none;">
+      <div class="snap-cell"><div class="snap-num"><span class="counter" data-target="99.2" data-decimals="1" data-suffix="%">99.2%</span></div><div class="snap-label">Reconciliation accuracy</div></div>
+      <div class="snap-cell"><div class="snap-num"><span class="counter" data-target="5">5</span></div><div class="snap-label">Day month-end close</div></div>
+      <div class="snap-cell"><div class="snap-num"><span class="counter" data-target="324">324</span></div><div class="snap-label">Invoices tracked</div></div>
+      <div class="snap-cell"><div class="snap-num"><span class="counter" data-target="3">3</span></div><div class="snap-label">Forecast scenarios modeled</div></div>
+    </div>
+  </header>
+
+  <section id="about" class="reveal">
+    <div class="label">About</div>
+    <div class="about-grid">
+      <h2>I work where data, finance, and operations meet.</h2>
+      <div>
+        <p>
+          I'm interested in the work that happens before a dashboard or report looks clean.
+          Collecting the data, fixing messy inputs, building the model, checking the
+          assumptions, and making sure the final numbers make sense. Whether the project is
+          a machine learning workflow, an FP&amp;A model, or an accounting reconciliation,
+          I care about making the process reliable and easy to explain.
+        </p>
+        <p>
+          I started in IT at Micro Center, where I worked with small-business clients and
+          learned how important dependable systems are in real business settings. After
+          transferring from Golden West College, I completed my B.A. in Data Science at
+          UC Berkeley and am now pursuing a B.S. in Accounting at WGU on a CPA track.
+        </p>
+        <p>
+          The projects below use working code, synthetic datasets, and dashboards to show
+          how I approach problems across data science, finance, accounting, and analytics.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="label" id="projects-label">Selected Work / Data &amp; Analytics</div>
+
+    <!-- ═══════ DATA SCIENCE TRACK ═══════ -->
+    <div class="project-track active" data-track="ds">
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-num">01</div>
+          <div class="project-body">
+            <h3>Shopify Sales &amp; Inventory Pipeline</h3>
+            <p>
+              End-to-end ETL pulling 12 months of e-commerce data through the Shopify REST API into
+              a MySQL star schema. Cleans 200k+ transactional rows (dedup, null SKU resolution,
+              catalog-rename normalization), drops weekly KPI queries from 30s to under 1s, and
+              feeds Tableau dashboards for inventory turnover and sales heatmaps.
+            </p>
+            <div class="project-tags">
+              <span>python</span><span>mysql</span><span>shopify api</span>
+              <span>star schema</span><span>tableau</span>
+            </div>
+          </div>
+          <a class="project-link" href="https://github.com/ktruongcal/shopify-pipeline" target="_blank" rel="noopener">view code</a>
+        </div>
+        <div class="project-dash">
+          <div class="dash-label"><span class="live-dot"></span>Pipeline output</div>
+          <div class="metrics-row">
+            <div class="metric"><div class="metric-label">Rows loaded</div><div class="metric-value">199K</div></div>
+            <div class="metric"><div class="metric-label">Duplicates dropped</div><div class="metric-value">572</div></div>
+            <div class="metric"><div class="metric-label">Null SKUs fixed</div><div class="metric-value">2,038</div></div>
+            <div class="metric"><div class="metric-label">Query speedup</div><div class="metric-value">30×</div></div>
+          </div>
+          <div class="charts-2col">
+            <div class="chart-wrap">
+              <div class="chart-title">Weekly revenue</div>
+              <div class="chart-subtitle">2025, paid orders, USD</div>
+              <div class="chart-canvas"><canvas id="ch_revenue"></canvas></div>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart-title">Category mix</div>
+              <div class="chart-subtitle">Units sold by category</div>
+              <div class="chart-canvas"><canvas id="ch_category"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-num">02</div>
+          <div class="project-body">
+            <h3>Customer Churn Prediction Pipeline</h3>
+            <p>
+              ML pipeline that ingests raw customer activity, engineers 20+ behavioral features
+              (recency, rolling 7d/30d windows, trend ratios), and trains a gradient boosting
+              classifier against a logistic regression baseline. Outputs scored predictions and
+              plan-tier retention recommendations for non-technical stakeholders.
+            </p>
+            <div class="project-tags">
+              <span>python</span><span>scikit-learn</span><span>pandas</span>
+              <span>feature engineering</span><span>gradient boosting</span>
+            </div>
+          </div>
+          <a class="project-link" href="https://github.com/ktruongcal/churn-prediction" target="_blank" rel="noopener">view code</a>
+        </div>
+        <div class="project-dash">
+          <div class="dash-label"><span class="live-dot"></span>Model performance</div>
+          <div class="metrics-row">
+            <div class="metric"><div class="metric-label">Baseline AUC</div><div class="metric-value">0.762</div></div>
+            <div class="metric"><div class="metric-label">Tuned AUC</div><div class="metric-value">0.788</div></div>
+            <div class="metric"><div class="metric-label">Top 5% precision</div><div class="metric-value">82.4<span class="small">%</span></div></div>
+            <div class="metric"><div class="metric-label">Test set size</div><div class="metric-value">12.5K</div></div>
+          </div>
+          <div class="charts-2col">
+            <div class="chart-wrap">
+              <div class="chart-title">ROC curve, gradient boosting</div>
+              <div class="chart-subtitle">Test set, n=12,500</div>
+              <div class="chart-canvas"><canvas id="ch_roc"></canvas></div>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart-title">Retention targeting</div>
+              <div class="chart-subtitle">Precision at top-K%</div>
+              <div class="chart-canvas"><canvas id="ch_topk"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-num">03</div>
+          <div class="project-body">
+            <h3>Macronutrient Pattern Analysis</h3>
+            <p>
+              Nutrition data pipeline pulling from the Edamam API and Kaggle datasets into BigQuery
+              with normalized relational schemas. Built a Python retry layer with exponential backoff
+              to absorb upstream flakiness, and SQL transformations using CTEs and window functions
+              to surface meal-level consumption patterns.
+            </p>
+            <div class="project-tags">
+              <span>sql</span><span>r</span><span>bigquery</span>
+              <span>edamam api</span><span>data studio</span>
+            </div>
+          </div>
+          <a class="project-link" href="https://github.com/ktruongcal/macronutrient-analysis" target="_blank" rel="noopener">view code</a>
+        </div>
+        <div class="project-dash">
+          <div class="dash-label"><span class="live-dot"></span>Analytical output</div>
+          <div class="metrics-row">
+            <div class="metric"><div class="metric-label">Meals analyzed</div><div class="metric-value">110K</div></div>
+            <div class="metric"><div class="metric-label">Recipes ingested</div><div class="metric-value">800</div></div>
+            <div class="metric"><div class="metric-label">API failures absorbed</div><div class="metric-value">64</div></div>
+            <div class="metric"><div class="metric-label">Unrecoverable</div><div class="metric-value">0</div></div>
+          </div>
+          <div class="charts-2col">
+            <div class="chart-wrap">
+              <div class="chart-title">Macro composition by meal type</div>
+              <div class="chart-subtitle">Grams per meal, stacked</div>
+              <div class="chart-canvas"><canvas id="ch_macro"></canvas></div>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart-title">Category popularity</div>
+              <div class="chart-subtitle">Meals consumed by diet</div>
+              <div class="chart-canvas"><canvas id="ch_diet"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-num">04</div>
+          <div class="project-body">
+            <h3>A/B Testing Simulation &amp; Statistical Analysis</h3>
+            <p>
+              Monte Carlo engine that runs thousands of controlled experiments with known ground
+              truth to study how sample and effect size impact statistical decisions. Applies
+              t-tests, confidence intervals, and Bayesian comparisons; persists results to SQLite
+              for cross-run comparisons; outputs a decision guide for experiment owners.
+            </p>
+            <div class="project-tags">
+              <span>python</span><span>scipy</span><span>sqlite</span>
+              <span>bayesian inference</span><span>hypothesis testing</span>
+            </div>
+          </div>
+          <a class="project-link" href="https://github.com/ktruongcal/ab-testing-simulation" target="_blank" rel="noopener">view code</a>
+        </div>
+        <div class="project-dash">
+          <div class="dash-label"><span class="live-dot"></span>Simulation output</div>
+          <div class="metrics-row">
+            <div class="metric"><div class="metric-label">Experiments run</div><div class="metric-value">10K</div></div>
+            <div class="metric"><div class="metric-label">Sweep dimensions</div><div class="metric-value">4×5</div></div>
+            <div class="metric"><div class="metric-label">Calibrated FPR</div><div class="metric-value">5.4<span class="small">%</span></div></div>
+            <div class="metric"><div class="metric-label">α target</div><div class="metric-value">5.0<span class="small">%</span></div></div>
+          </div>
+          <div class="charts-2col">
+            <div class="chart-wrap">
+              <div class="chart-title">Power curves</div>
+              <div class="chart-subtitle">Detection rate by effect size, per sample size</div>
+              <div class="chart-canvas tall"><canvas id="ch_power"></canvas></div>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart-title">FPR calibration</div>
+              <div class="chart-subtitle">False positive rate at lift=0</div>
+              <div class="chart-canvas tall"><canvas id="ch_fpr"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-num">05</div>
+          <div class="project-body">
+            <h3>AI Revenue &amp; Pricing Decision Support Tool</h3>
+            <p>
+              Revenue and pricing analysis tool that connects product, customer, and quarterly
+              sales data to support pricing, mix, and margin decisions. Builds scenario models
+              for ASP changes (3%, 5%, 10%) with segment-level demand elasticities, and includes
+              an LLM-assisted summary workflow that generates finance-ready commentary on revenue
+              drivers and forecast risk, grounded in validated source data with documented
+              responsible AI controls.
+            </p>
+            <div class="project-tags">
+              <span>python</span><span>sql</span><span>excel</span>
+              <span>power bi</span><span>llms</span><span>responsible ai</span>
+            </div>
+          </div>
+          <a class="project-link" href="https://github.com/ktruongcal/ai-revenue-pricing" target="_blank" rel="noopener">view code</a>
+        </div>
+        <div class="project-dash">
+          <div class="dash-label"><span class="live-dot"></span>Pricing scenarios</div>
+          <div class="metrics-row">
+            <div class="metric"><div class="metric-label">Rows analyzed</div><div class="metric-value">1,800</div></div>
+            <div class="metric"><div class="metric-label">Base revenue</div><div class="metric-value">$136M</div></div>
+            <div class="metric"><div class="metric-label">Base GM%</div><div class="metric-value">51.3<span class="small">%</span></div></div>
+            <div class="metric"><div class="metric-label">Scenarios</div><div class="metric-value">5</div></div>
+          </div>
+          <div class="charts-2col">
+            <div class="chart-wrap">
+              <div class="chart-title">Revenue under ASP scenarios</div>
+              <div class="chart-subtitle">Portfolio total, $M</div>
+              <div class="chart-canvas"><canvas id="ch_pricing_rev_ds"></canvas></div>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart-title">Gross margin shift</div>
+              <div class="chart-subtitle">Portfolio GM%, by scenario</div>
+              <div class="chart-canvas"><canvas id="ch_pricing_gm_ds"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════ FP&A TRACK ═══════ -->
+    <div class="project-track" data-track="fpa">
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-num">01</div>
+          <div class="project-body">
+            <h3>FP&amp;A Dashboard: Revenue vs Plan Variance</h3>
+            <p>
+              Dynamic FP&amp;A dashboard analyzing actual vs plan revenue across quarterly periods.
+              Built variance bridges that decompose aggregate performance gaps into the top three
+              drivers, automated data prep in Power Query (cut manual refresh time from two hours
+              to under twenty minutes), and produced executive-level visuals supporting financial
+              decision-making.
+            </p>
+            <div class="project-tags">
+              <span>excel</span><span>power bi</span><span>power query</span>
+              <span>variance analysis</span><span>fp&amp;a</span>
+            </div>
+          </div>
+          <a class="project-link" href="https://github.com/ktruongcal/fpa-revenue-variance" target="_blank" rel="noopener">view code</a>
+        </div>
+        <div class="project-dash">
+          <div class="dash-label"><span class="live-dot"></span>Quarterly performance</div>
+          <div class="metrics-row">
+            <div class="metric"><div class="metric-label">Q4 actual</div><div class="metric-value">$162M</div></div>
+            <div class="metric"><div class="metric-label">Q4 plan</div><div class="metric-value">$184M</div></div>
+            <div class="metric"><div class="metric-label">Variance</div><div class="metric-value neg">-12.0<span class="small">%</span></div></div>
+            <div class="metric"><div class="metric-label">Top driver</div><div class="metric-value">Ent. slips</div></div>
+          </div>
+          <div class="charts-2col">
+            <div class="chart-wrap">
+              <div class="chart-title">Actual vs plan revenue</div>
+              <div class="chart-subtitle">Quarterly, $M</div>
+              <div class="chart-canvas"><canvas id="ch_actvplan"></canvas></div>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart-title">Q4 variance bridge</div>
+              <div class="chart-subtitle">Plan to actual, $M</div>
+              <div class="chart-canvas"><canvas id="ch_bridge"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-num">02</div>
+          <div class="project-body">
+            <h3>Oracle EPM Cloud: Financial Forecasting</h3>
+            <p>
+              Driver-based forecast and planning workflow built in Oracle EPM Cloud, re-implemented
+              in Python so the model is portable and inspectable. Forecasts FY 2026 across three
+              scenarios (downside, base, upside) using customer acquisition, churn, ARPU growth,
+              and opex growth as the underlying drivers.
+            </p>
+            <div class="project-tags">
+              <span>oracle epm cloud</span><span>driver-based</span><span>scenario modeling</span>
+              <span>budgeting</span><span>fp&amp;a</span>
+            </div>
+          </div>
+          <a class="project-link" href="https://github.com/ktruongcal/oracle-epm-forecast" target="_blank" rel="noopener">view code</a>
+        </div>
+        <div class="project-dash">
+          <div class="dash-label"><span class="live-dot"></span>FY 2026 scenarios</div>
+          <div class="metrics-row">
+            <div class="metric"><div class="metric-label">Base revenue</div><div class="metric-value">$182M</div></div>
+            <div class="metric"><div class="metric-label">Base op income</div><div class="metric-value">$75M</div></div>
+            <div class="metric"><div class="metric-label">Base margin</div><div class="metric-value">41.4<span class="small">%</span></div></div>
+            <div class="metric"><div class="metric-label">Scenarios</div><div class="metric-value">3</div></div>
+          </div>
+          <div class="charts-2col">
+            <div class="chart-wrap">
+              <div class="chart-title">Revenue forecast by scenario</div>
+              <div class="chart-subtitle">FY 2026 quarterly, $M</div>
+              <div class="chart-canvas"><canvas id="ch_forecast"></canvas></div>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart-title">Operating margin</div>
+              <div class="chart-subtitle">Full-year by scenario</div>
+              <div class="chart-canvas"><canvas id="ch_margin"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-num">03</div>
+          <div class="project-body">
+            <h3>Invoice Processing &amp; Vendor Management</h3>
+            <p>
+              AP workflow tracker monitoring 324 invoices across 52 vendors with status, aging
+              buckets, and validation logic that flags potential duplicate payments. Standardized
+              vendor records and payment terms, eliminated duplicate-payment errors from the prior
+              quarter, and built a folder structure that passed a mock audit with zero findings.
+            </p>
+            <div class="project-tags">
+              <span>excel</span><span>accounts payable</span><span>3-way matching</span>
+              <span>vendor management</span><span>audit readiness</span>
+            </div>
+          </div>
+          <a class="project-link" href="https://github.com/ktruongcal/invoice-workflow" target="_blank" rel="noopener">view code</a>
+        </div>
+        <div class="project-dash">
+          <div class="dash-label"><span class="live-dot"></span>AP workflow</div>
+          <div class="metrics-row">
+            <div class="metric"><div class="metric-label">Open invoices</div><div class="metric-value">114</div></div>
+            <div class="metric"><div class="metric-label">Vendors</div><div class="metric-value">52</div></div>
+            <div class="metric"><div class="metric-label">Outstanding</div><div class="metric-value">$368K</div></div>
+            <div class="metric"><div class="metric-label">Dupes flagged</div><div class="metric-value">2</div></div>
+          </div>
+          <div class="charts-2col">
+            <div class="chart-wrap">
+              <div class="chart-title">Aging buckets</div>
+              <div class="chart-subtitle">Outstanding by overdue range</div>
+              <div class="chart-canvas"><canvas id="ch_aging"></canvas></div>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart-title">Status mix</div>
+              <div class="chart-subtitle">Invoice ledger</div>
+              <div class="chart-canvas"><canvas id="ch_status"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-num">04</div>
+          <div class="project-body">
+            <h3>Financial Accounting &amp; Compliance</h3>
+            <p>
+              Six-month month-end close workflow recording journal entries, reconciling general
+              ledger accounts, and producing balance sheets and income statements. Reduced close
+              cycle from seven days to five and post-close errors by 75% over the period through
+              tightened reconciliation and pre-close validation.
+            </p>
+            <div class="project-tags">
+              <span>quickbooks</span><span>excel</span><span>alteryx</span>
+              <span>month-end close</span><span>gl reconciliation</span>
+            </div>
+          </div>
+          <a class="project-link" href="https://github.com/ktruongcal/financial-compliance" target="_blank" rel="noopener">view code</a>
+        </div>
+        <div class="project-dash">
+          <div class="dash-label"><span class="live-dot"></span>Close performance</div>
+          <div class="metrics-row">
+            <div class="metric"><div class="metric-label">Reconciliation</div><div class="metric-value">99.2<span class="small">%</span></div></div>
+            <div class="metric"><div class="metric-label">Close cycle</div><div class="metric-value">5 days</div></div>
+            <div class="metric"><div class="metric-label">JE recorded</div><div class="metric-value">1,857</div></div>
+            <div class="metric"><div class="metric-label">Errors reduced</div><div class="metric-value pos">75<span class="small">%</span></div></div>
+          </div>
+          <div class="charts-2col">
+            <div class="chart-wrap">
+              <div class="chart-title">Reconciliation accuracy trend</div>
+              <div class="chart-subtitle">Feb 2025 to Jul 2025</div>
+              <div class="chart-canvas"><canvas id="ch_recon"></canvas></div>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart-title">Journal entries by category</div>
+              <div class="chart-subtitle">Six-month total</div>
+              <div class="chart-canvas"><canvas id="ch_je"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div class="project-num">05</div>
+          <div class="project-body">
+            <h3>Cost &amp; Profitability Analysis</h3>
+            <p>
+              SKU-level profitability analysis joining sales, product cost, and inventory data
+              across five relational tables. Ran cost-volume-profit analysis that flagged two
+              underperforming SKUs accounting for 8% of COGS with near-zero margin, and produced
+              reorder recommendations that reduced stockouts by 15% across two quarters.
+            </p>
+            <div class="project-tags">
+              <span>mysql</span><span>python</span><span>tableau</span>
+              <span>cvp analysis</span><span>excel</span>
+            </div>
+          </div>
+          <a class="project-link" href="https://github.com/ktruongcal/cost-profitability" target="_blank" rel="noopener">view code</a>
+        </div>
+        <div class="project-dash">
+          <div class="dash-label"><span class="live-dot"></span>Profitability output</div>
+          <div class="metrics-row">
+            <div class="metric"><div class="metric-label">SKUs analyzed</div><div class="metric-value">120</div></div>
+            <div class="metric"><div class="metric-label">Total revenue</div><div class="metric-value">$7.3M</div></div>
+            <div class="metric"><div class="metric-label">Gross margin</div><div class="metric-value">37.1<span class="small">%</span></div></div>
+            <div class="metric"><div class="metric-label">SKUs flagged</div><div class="metric-value">6</div></div>
+          </div>
+          <div class="charts-2col">
+            <div class="chart-wrap">
+              <div class="chart-title">Gross profit by category</div>
+              <div class="chart-subtitle">$, 120 SKU rollup</div>
+              <div class="chart-canvas"><canvas id="ch_gp"></canvas></div>
+            </div>
+            <div class="chart-wrap">
+              <div class="chart-title">Margin by category</div>
+              <div class="chart-subtitle">Gross margin %</div>
+              <div class="chart-canvas"><canvas id="ch_marginbycat"></canvas></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="experience" class="reveal">
+    <div class="label">Experience</div>
+    <div class="exp-item">
+      <div class="exp-when">Jul 2025 / Mar 2026</div>
+      <div>
+        <div class="exp-role">Community Living Assistant</div>
+        <div class="exp-org">East Bay Innovations, San Leandro, CA</div>
+        <div class="exp-detail">
+          Maintained structured documentation and shift handoff systems across multi-person care
+          teams in a compliance-heavy setting. Coordinated across interdisciplinary teams while
+          balancing changing priorities and time-sensitive client needs.
+        </div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-when">Apr 2023 / May 2024</div>
+      <div>
+        <div class="exp-role">Computer Network Specialist</div>
+        <div class="exp-org">MicroCenter, Tustin, CA</div>
+        <div class="exp-detail">
+          Deployed servers, switches, VPNs, and firewall configurations for 40+ small business and
+          enterprise clients while maintaining a 94% customer satisfaction rating. Diagnosed
+          recurring infrastructure issues, wrote internal runbooks to reduce escalation volume,
+          and translated client business requirements into concrete networking setups.
+        </div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-when">Jul 2018 / Apr 2023</div>
+      <div>
+        <div class="exp-role">Customer Relationship Manager</div>
+        <div class="exp-org">Golden West College, Huntington Beach, CA</div>
+        <div class="exp-detail">
+          Led customer and vendor relationship management for campus operations across nearly
+          five years, ensuring regulatory compliance and operational efficiency.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="reveal">
+    <div class="label">Toolbox</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h4>Languages</h4>
+        <ul><li>Python</li><li>SQL</li><li>R</li><li>Java</li><li>C/C++</li></ul>
+      </div>
+      <div class="skill-group">
+        <h4>Data &amp; Analytics</h4>
+        <ul>
+          <li>ETL Pipelines</li><li>Data Cleaning</li><li>Exploratory Analysis</li>
+          <li>Data Validation</li><li>KPI Reporting</li><li>Dashboarding</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Databases &amp; BI</h4>
+        <ul>
+          <li>PostgreSQL</li><li>MySQL</li><li>SQLite</li>
+          <li>BigQuery</li><li>Snowflake</li><li>Tableau</li><li>Power BI</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>ML &amp; Statistics</h4>
+        <ul>
+          <li>pandas</li><li>NumPy</li><li>scikit-learn</li>
+          <li>Regression</li><li>Classification</li><li>A/B Testing</li>
+          <li>Hypothesis Testing</li><li>Bayesian Inference</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Finance &amp; Accounting</h4>
+        <ul>
+          <li>FP&amp;A</li><li>Variance Analysis</li><li>Forecasting</li>
+          <li>Budgeting</li><li>Reconciliations</li><li>Journal Entries</li>
+          <li>Month-End Close</li><li>AP/AR</li><li>3-Statement Modeling</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <h4>Tools &amp; Workflow</h4>
+        <ul>
+          <li>Excel</li><li>Power Query</li><li>PivotTables</li>
+          <li>QuickBooks</li><li>Oracle EPM Cloud</li><li>Alteryx</li>
+          <li>Git/GitHub</li><li>Linux</li><li>Jupyter</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" class="reveal">
+    <div class="label">Education</div>
+    <div class="exp-item">
+      <div class="exp-when">Aug 2024 / May 2026</div>
+      <div>
+        <div class="exp-role">B.A., Data Science</div>
+        <div class="exp-org">University of California, Berkeley</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-when">Aug 2022 / May 2024</div>
+      <div>
+        <div class="exp-role">A.S., Computer Science</div>
+        <div class="exp-org">Golden West College</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-when">May 2025 / May 2027</div>
+      <div>
+        <div class="exp-role">B.S., Accounting</div>
+        <div class="exp-org">Western Governors University, CPA Track</div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="footer-grid">
+      <h2>Let's talk. <a href="mailto:ktruong.cal@gmail.com">ktruong.cal@gmail.com</a></h2>
+      <div class="footer-meta">
+        <a href="https://linkedin.com/in/kentontruong" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://github.com/ktruongcal" target="_blank" rel="noopener">GitHub ↗</a>
+        <div style="margin-top: 14px; color: var(--ink-faint);">Berkeley, CA</div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // ═══════════════════════ TAB SWITCHER ═══════════════════════
+  const trackButtons = document.querySelectorAll('.track-btn');
+  const tracks = document.querySelectorAll('.project-track');
+  const blurbDS = document.getElementById('hero-blurb-ds');
+  const blurbFPA = document.getElementById('hero-blurb-fpa');
+  const snapDS = document.getElementById('snapshot-ds');
+  const snapFPA = document.getElementById('snapshot-fpa');
+  const projectsLabel = document.getElementById('projects-label');
+
+  trackButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const track = btn.dataset.track;
+      trackButtons.forEach(b => {
+        b.classList.toggle('active', b === btn);
+        b.setAttribute('aria-selected', b === btn);
+      });
+      tracks.forEach(t => t.classList.toggle('active', t.dataset.track === track));
+      if (track === 'ds') {
+        blurbDS.style.display = ''; blurbFPA.style.display = 'none';
+        snapDS.style.display  = ''; snapFPA.style.display  = 'none';
+        projectsLabel.textContent = 'Selected Work / Data & Analytics';
+      } else {
+        blurbDS.style.display = 'none'; blurbFPA.style.display = '';
+        snapDS.style.display  = 'none'; snapFPA.style.display  = '';
+        projectsLabel.textContent = 'Selected Work / Finance & Accounting';
+      }
+    });
+  });
+
+  // ═══════════════════════ CHART DEFAULTS ═══════════════════════
+  const INK = '#fafaf9';
+  const INK_SOFT = '#a1a1aa';
+  const FAINT = '#71717a';
+  const RULE = '#27272a';
+  const ACCENT = '#fb923c';
+  const TEAL = '#2dd4bf';
+  const PLUM = '#c084fc';
+  const AMBER = '#fbbf24';
+  const SLATE = '#94a3b8';
+  const GREEN = '#4ade80';
+  const ROSE = '#fb7185';
+
+  Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = FAINT;
+  Chart.defaults.plugins.legend.display = false;
+  Chart.defaults.plugins.tooltip.backgroundColor = '#1f1f23';
+  Chart.defaults.plugins.tooltip.titleColor = INK;
+  Chart.defaults.plugins.tooltip.bodyColor = INK_SOFT;
+  Chart.defaults.plugins.tooltip.borderColor = RULE;
+  Chart.defaults.plugins.tooltip.borderWidth = 1;
+  Chart.defaults.plugins.tooltip.titleFont = { size: 12, weight: '600' };
+  Chart.defaults.plugins.tooltip.bodyFont = { size: 11.5, weight: '400' };
+  Chart.defaults.plugins.tooltip.footerFont = { size: 10.5, weight: '400', style: 'italic' };
+  Chart.defaults.plugins.tooltip.footerColor = FAINT;
+  Chart.defaults.plugins.tooltip.padding = { top: 10, right: 14, bottom: 10, left: 14 };
+  Chart.defaults.plugins.tooltip.cornerRadius = 8;
+  Chart.defaults.plugins.tooltip.boxPadding = 5;
+  Chart.defaults.plugins.tooltip.caretSize = 6;
+  Chart.defaults.plugins.tooltip.displayColors = true;
+  Chart.defaults.plugins.tooltip.boxWidth = 8;
+  Chart.defaults.plugins.tooltip.boxHeight = 8;
+  Chart.defaults.plugins.tooltip.usePointStyle = true;
+  // Smooth animated transitions, including initial render
+  Chart.defaults.animation = { duration: 900, easing: 'easeOutCubic' };
+  Chart.defaults.animations = {
+    tension: { duration: 1200, easing: 'easeOutQuart', from: 0, to: undefined, loop: false },
+  };
+  // Interactions: legend toggling enabled by default for charts that show legends
+  Chart.defaults.plugins.legend.onHover = (e) => { e.native.target.style.cursor = 'pointer'; };
+  Chart.defaults.plugins.legend.onLeave = (e) => { e.native.target.style.cursor = 'default'; };
+
+  const gridStyle = { color: RULE, drawBorder: false };
+
+  // ════════ Helper: rich number formatters ════════
+  const fmt = {
+    currency: (v, unit = '') => '$' + v.toLocaleString(undefined, { maximumFractionDigits: 1 }) + unit,
+    currencyK: (v) => '$' + v + 'K',
+    currencyM: (v) => '$' + v + 'M',
+    int: (v) => v.toLocaleString(),
+    pct: (v, d = 1) => v.toFixed(d) + '%',
+    delta: (v) => (v >= 0 ? '+' : '') + v.toFixed(1),
+  };
+
+  // ════════ Helper: crosshair plugin for line charts ════════
+  // Draws a vertical guide line at the active hover point.
+  const crosshairPlugin = {
+    id: 'crosshair',
+    afterDraw: (chart) => {
+      const active = chart.tooltip?._active;
+      if (!active || !active.length) return;
+      const { ctx, chartArea: { top, bottom } } = chart;
+      const x = active[0].element.x;
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x, top);
+      ctx.lineTo(x, bottom);
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = 'rgba(161, 161, 170, 0.25)';
+      ctx.setLineDash([3, 3]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.restore();
+    }
+  };
+
+  // ═══════════════════════ DS PROJECT CHARTS ═══════════════════════
+  const revenueData = [74, 109, 132, 141, 146, 158, 164, 171, 168, 175, 182, 189, 195, 201, 207, 215, 224, 232];
+  const revenueLabels = ['W1','W3','W5','W7','W9','W11','W13','W15','W17','W19','W21','W23','W25','W27','W29','W31','W33','W35'];
+  const revenueTotal = revenueData.reduce((a, b) => a + b, 0);
+  new Chart(document.getElementById('ch_revenue'), {
+    type: 'line',
+    data: {
+      labels: revenueLabels,
+      datasets: [{
+        label: 'Revenue',
+        data: revenueData,
+        borderColor: ACCENT, backgroundColor: 'rgba(251, 146, 60, 0.10)',
+        fill: true, tension: 0.3, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5,
+        pointHoverBackgroundColor: ACCENT, pointHoverBorderColor: '#fff', pointHoverBorderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: { grid: { display: false }, ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 6 } },
+        y: { grid: gridStyle, border: { display: false }, ticks: { callback: (v) => '$' + v + 'K' } }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label + ', 2025',
+            label: (ctx) => '  Revenue: ' + fmt.currencyK(ctx.parsed.y),
+            afterBody: (items) => {
+              const i = items[0].dataIndex;
+              if (i === 0) return ['  WoW change: first data point'];
+              const prev = revenueData[i - 1];
+              const curr = revenueData[i];
+              const delta = ((curr - prev) / prev * 100);
+              return ['  WoW change: ' + (delta >= 0 ? '+' : '') + delta.toFixed(1) + '%'];
+            },
+            footer: (items) => {
+              const share = (items[0].parsed.y / revenueTotal * 100).toFixed(1);
+              return 'Share of period: ' + share + '%';
+            },
+          }
+        }
+      }
+    },
+    plugins: [crosshairPlugin]
+  });
+
+  const categoryData = [53615, 49563, 49322, 43504, 41963];
+  const categoryLabels = ['Apparel','Beauty','Accessories','Home','Electronics'];
+  const categoryTotal = categoryData.reduce((a, b) => a + b, 0);
+  new Chart(document.getElementById('ch_category'), {
+    type: 'bar',
+    data: {
+      labels: categoryLabels,
+      datasets: [{
+        label: 'Units sold',
+        data: categoryData,
+        backgroundColor: [ACCENT, PLUM, TEAL, AMBER, SLATE],
+        borderRadius: 3, borderSkipped: false, barThickness: 22,
+        hoverBackgroundColor: [ACCENT, PLUM, TEAL, AMBER, SLATE].map(c => c),
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { grid: gridStyle, border: { display: false }, ticks: { callback: (v) => (v/1000) + 'K' } },
+        y: { grid: { display: false }, border: { display: false } }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label,
+            label: (ctx) => '  ' + fmt.int(ctx.parsed.x) + ' units sold',
+            afterBody: (items) => {
+              const share = (items[0].parsed.x / categoryTotal * 100).toFixed(1);
+              const rank = items[0].dataIndex + 1;
+              return ['  Share: ' + share + '% of category total',
+                      '  Rank: #' + rank + ' of ' + categoryData.length];
+            },
+          }
+        }
+      }
+    }
+  });
+
+  const rocFPR = [0,0.0067,0.0143,0.0235,0.0322,0.0426,0.0532,0.0651,0.0761,0.0881,0.1,0.114,0.1289,0.1423,0.1559,0.1703,0.1855,0.202,0.218,0.2354,0.2494,0.2673,0.284,0.3035,0.3227,0.3481,0.3661,0.3895,0.4117,0.434,0.4596,0.4924,0.5188,0.5547,0.5876,0.6522,0.7024,0.7669,0.8469,1.0];
+  const rocTPR = [0,0.1009,0.1571,0.2056,0.241,0.2791,0.3172,0.3515,0.3781,0.405,0.4288,0.4522,0.4746,0.5018,0.5245,0.5511,0.5753,0.6002,0.6194,0.6394,0.6625,0.6874,0.7063,0.7272,0.7472,0.768,0.788,0.807,0.8226,0.8396,0.8566,0.8739,0.8928,0.9079,0.9254,0.9405,0.9553,0.9707,0.9863,1.0];
+  new Chart(document.getElementById('ch_roc'), {
+    type: 'line',
+    data: {
+      labels: rocFPR.map(v => v.toFixed(2)),
+      datasets: [
+        { label: 'Model', data: rocTPR, borderColor: TEAL, backgroundColor: 'rgba(45, 212, 191, 0.12)', fill: true, tension: 0.2, borderWidth: 2, pointRadius: 0, pointHoverRadius: 4, pointBackgroundColor: TEAL, pointBorderColor: '#fff', pointBorderWidth: 2 },
+        { label: 'Random', data: rocFPR, borderColor: FAINT, borderDash: [4, 4], borderWidth: 1, pointRadius: 0, fill: false }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: { grid: gridStyle, border: { display: false }, title: { display: true, text: 'False positive rate', color: FAINT, font: { size: 10 } }, ticks: { maxTicksLimit: 6 } },
+        y: { grid: gridStyle, border: { display: false }, min: 0, max: 1, title: { display: true, text: 'True positive rate', color: FAINT, font: { size: 10 } }, ticks: { stepSize: 0.25 } }
+      },
+      plugins: {
+        legend: { display: true, position: 'top', align: 'end',
+                  labels: { boxWidth: 10, boxHeight: 10, padding: 12, font: { size: 11 }, color: INK_SOFT, usePointStyle: true } },
+        tooltip: {
+          callbacks: {
+            title: (items) => 'Decision threshold',
+            label: (ctx) => {
+              if (ctx.datasetIndex === 0) {
+                return '  Model TPR: ' + (ctx.parsed.y * 100).toFixed(1) + '%';
+              }
+              return '  Random: ' + (ctx.parsed.y * 100).toFixed(1) + '%';
+            },
+            afterBody: (items) => {
+              const i = items[0].dataIndex;
+              const tpr = rocTPR[i]; const fpr = rocFPR[i];
+              const gap = (tpr - fpr) * 100;
+              return ['  FPR: ' + (fpr * 100).toFixed(1) + '%',
+                      '  Lift over random: +' + gap.toFixed(1) + 'pp'];
+            }
+          }
+        }
+      }
+    },
+    plugins: [crosshairPlugin]
+  });
+
+  const topkData = [82.4, 74.6, 63.4, 29.2];
+  const topkLabels = ['Top 5%','Top 10%','Top 20%','Overall'];
+  const overallBase = 29.2;
+  new Chart(document.getElementById('ch_topk'), {
+    type: 'bar',
+    data: {
+      labels: topkLabels,
+      datasets: [{ label: 'Precision', data: topkData, backgroundColor: [TEAL, TEAL, TEAL, FAINT], borderRadius: 4, borderSkipped: false, barThickness: 32 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false }, border: { display: false } },
+        y: { grid: gridStyle, border: { display: false }, max: 100, ticks: { callback: (v) => v + '%' } }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label + ' segment',
+            label: (ctx) => '  Precision: ' + ctx.parsed.y + '%',
+            afterBody: (items) => {
+              const i = items[0].dataIndex;
+              if (i === 3) return ['  This is the base rate'];
+              const lift = (topkData[i] / overallBase).toFixed(1);
+              return ['  Lift over base: ' + lift + 'x',
+                      '  vs ' + overallBase + '% if untargeted'];
+            }
+          }
+        }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('ch_macro'), {
+    type: 'bar',
+    data: {
+      labels: ['Breakfast','Lunch','Dinner','Snack'],
+      datasets: [
+        { label: 'Protein', data: [71.1, 71.0, 71.0, 70.4], backgroundColor: TEAL, borderRadius: 3, borderSkipped: false },
+        { label: 'Fat',     data: [56.3, 56.1, 55.8, 55.4], backgroundColor: AMBER, borderRadius: 3, borderSkipped: false },
+        { label: 'Carbs',   data: [53.1, 52.7, 53.3, 53.5], backgroundColor: PLUM,  borderRadius: 3, borderSkipped: false },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: { stacked: true, grid: { display: false }, border: { display: false } },
+        y: { stacked: true, grid: gridStyle, border: { display: false }, ticks: { callback: (v) => v + 'g' } }
+      },
+      plugins: {
+        legend: { display: true, position: 'bottom', align: 'start',
+                  labels: { boxWidth: 10, boxHeight: 10, padding: 12, font: { size: 11 }, color: INK_SOFT, usePointStyle: true } },
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label,
+            label: (ctx) => '  ' + ctx.dataset.label + ': ' + ctx.parsed.y + 'g',
+            footer: (items) => {
+              const total = items.reduce((sum, it) => sum + it.parsed.y, 0);
+              // Calories estimate: protein 4cal/g, carbs 4cal/g, fat 9cal/g
+              const cal = items.reduce((sum, it) => {
+                const mult = it.dataset.label === 'Fat' ? 9 : 4;
+                return sum + it.parsed.y * mult;
+              }, 0);
+              return 'Total: ' + total.toFixed(1) + 'g  /  ~' + Math.round(cal) + ' kcal';
+            }
+          }
+        }
+      }
+    }
+  });
+
+  const dietData = [21085, 19630, 18628, 17545, 16932, 16007];
+  const dietLabels = ['Mediterranean','High protein','Keto','Low carb','Vegan','Paleo'];
+  const dietTotal = dietData.reduce((a, b) => a + b, 0);
+  new Chart(document.getElementById('ch_diet'), {
+    type: 'doughnut',
+    data: {
+      labels: dietLabels,
+      datasets: [{
+        data: dietData,
+        backgroundColor: [TEAL, ACCENT, PLUM, AMBER, SLATE, '#64748b'],
+        borderWidth: 2, borderColor: '#1f1f23',
+        hoverOffset: 8, hoverBorderColor: '#1f1f23',
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '62%',
+      plugins: {
+        legend: { display: true, position: 'right', align: 'center',
+                  labels: { boxWidth: 10, boxHeight: 10, padding: 8, font: { size: 10 }, color: INK_SOFT, usePointStyle: true } },
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label + ' diet',
+            label: (ctx) => '  ' + fmt.int(ctx.parsed) + ' meals',
+            afterBody: (items) => {
+              const share = (items[0].parsed / dietTotal * 100).toFixed(1);
+              return ['  Share: ' + share + '%'];
+            }
+          }
+        }
+      }
+    }
+  });
+
+  const liftLabels = ['0pp', '0.5pp', '1.0pp', '2.0pp', '3.0pp'];
+  new Chart(document.getElementById('ch_power'), {
+    type: 'line',
+    data: {
+      labels: liftLabels,
+      datasets: [
+        { label: 'n=1,000',  data: [5.0, 6.2, 9.6, 28.0, 52.2], borderColor: SLATE, backgroundColor: 'transparent', borderWidth: 2, tension: 0.25, pointRadius: 3, pointBackgroundColor: SLATE, pointHoverRadius: 6 },
+        { label: 'n=5,000',  data: [5.4, 13.0, 37.4, 84.0, 99.6], borderColor: AMBER, backgroundColor: 'transparent', borderWidth: 2, tension: 0.25, pointRadius: 3, pointBackgroundColor: AMBER, pointHoverRadius: 6 },
+        { label: 'n=10,000', data: [6.6, 20.2, 53.0, 99.2, 100], borderColor: ACCENT, backgroundColor: 'transparent', borderWidth: 2, tension: 0.25, pointRadius: 3, pointBackgroundColor: ACCENT, pointHoverRadius: 6 },
+        { label: 'n=25,000', data: [4.6, 39.6, 91.8, 100, 100], borderColor: TEAL, backgroundColor: 'transparent', borderWidth: 2, tension: 0.25, pointRadius: 3, pointBackgroundColor: TEAL, pointHoverRadius: 6 },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: { grid: { display: false }, border: { display: false }, title: { display: true, text: 'True effect size', color: FAINT, font: { size: 10 } } },
+        y: { grid: gridStyle, border: { display: false }, min: 0, max: 100, title: { display: true, text: 'Detection rate', color: FAINT, font: { size: 10 } }, ticks: { callback: (v) => v + '%' } }
+      },
+      plugins: {
+        legend: { display: true, position: 'bottom', align: 'start',
+                  labels: { boxWidth: 10, boxHeight: 10, padding: 10, font: { size: 11 }, color: INK_SOFT, usePointStyle: true } },
+        tooltip: {
+          callbacks: {
+            title: (items) => 'True effect: ' + items[0].label,
+            label: (ctx) => '  ' + ctx.dataset.label + ': ' + ctx.parsed.y.toFixed(1) + '% detected',
+          }
+        }
+      }
+    },
+    plugins: [crosshairPlugin]
+  });
+
+  const fprData = [5.0, 5.4, 6.6, 4.6];
+  new Chart(document.getElementById('ch_fpr'), {
+    type: 'bar',
+    data: {
+      labels: ['1K','5K','10K','25K'],
+      datasets: [{
+        label: 'Observed FPR',
+        data: fprData,
+        backgroundColor: TEAL,
+        borderRadius: 4, borderSkipped: false, barThickness: 36,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false }, border: { display: false }, title: { display: true, text: 'Per-arm sample size', color: FAINT, font: { size: 10 } } },
+        y: { grid: gridStyle, border: { display: false }, max: 10, ticks: { callback: (v) => v + '%' }, title: { display: true, text: 'False positive rate', color: FAINT, font: { size: 10 } } }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (items) => 'Sample: ' + items[0].label + ' per arm',
+            label: (ctx) => '  Observed FPR: ' + ctx.parsed.y + '%',
+            afterBody: (items) => {
+              const dev = (items[0].parsed.y - 5.0);
+              const sign = dev >= 0 ? '+' : '';
+              return ['  Target: 5.0% (alpha)',
+                      '  Deviation: ' + sign + dev.toFixed(1) + 'pp'];
+            }
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'targetLine',
+      afterDraw: (chart) => {
+        const { ctx, chartArea: { left, right }, scales: { y } } = chart;
+        const yPos = y.getPixelForValue(5);
+        ctx.save();
+        ctx.strokeStyle = ACCENT; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]);
+        ctx.beginPath(); ctx.moveTo(left, yPos); ctx.lineTo(right, yPos); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = ACCENT; ctx.font = '500 10px Inter'; ctx.textAlign = 'right';
+        ctx.fillText('alpha = 5%', right - 4, yPos - 4);
+        ctx.restore();
+      }
+    }]
+  });
+
+  // ═══════════════════════ FP&A PROJECT CHARTS ═══════════════════════
+
+  const planVals = [142.0, 156.0, 168.0, 184.0];
+  const actualVals = [145.3, 158.7, 162.1, 162.0];
+  new Chart(document.getElementById('ch_actvplan'), {
+    type: 'bar',
+    data: {
+      labels: ['Q1 2025','Q2 2025','Q3 2025','Q4 2025'],
+      datasets: [
+        { label: 'Plan',   data: planVals, backgroundColor: SLATE, borderRadius: 4, borderSkipped: false, barThickness: 24 },
+        { label: 'Actual', data: actualVals, backgroundColor: ACCENT, borderRadius: 4, borderSkipped: false, barThickness: 24 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: { grid: { display: false }, border: { display: false } },
+        y: { grid: gridStyle, border: { display: false }, ticks: { callback: (v) => '$' + v + 'M' } }
+      },
+      plugins: {
+        legend: { display: true, position: 'bottom', align: 'start',
+                  labels: { boxWidth: 10, boxHeight: 10, padding: 12, font: { size: 11 }, color: INK_SOFT, usePointStyle: true } },
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label,
+            label: (ctx) => '  ' + ctx.dataset.label + ': $' + ctx.parsed.y.toFixed(1) + 'M',
+            afterBody: (items) => {
+              const i = items[0].dataIndex;
+              const delta = actualVals[i] - planVals[i];
+              const pct = (delta / planVals[i] * 100);
+              const sign = delta >= 0 ? '+' : '';
+              return ['  Variance: ' + sign + '$' + delta.toFixed(1) + 'M (' + sign + pct.toFixed(1) + '%)'];
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // P1: Variance bridge (custom waterfall)
+  const bridgeLabels = ['Plan', 'Ent slips', 'Services', 'SMB churn', 'Mid-mkt', 'Actual'];
+  const bridgeColors = [SLATE, ROSE, ROSE, ROSE, ROSE, ACCENT];
+  const bridgeDeltas = [184.0, -11.5, -4.4, -3.9, -2.2, 162.0]; // values for tooltip
+  const bridgeRunning = [184.0, 172.5, 168.1, 164.2, 162.0, 162.0];
+  const totalGap = 22.0;
+  new Chart(document.getElementById('ch_bridge'), {
+    type: 'bar',
+    data: {
+      labels: bridgeLabels,
+      datasets: [{
+        label: 'Variance',
+        data: [
+          [0, 184.0], [172.5, 184.0], [168.1, 172.5],
+          [164.2, 168.1], [162.0, 164.2], [0, 162.0],
+        ],
+        backgroundColor: bridgeColors,
+        borderRadius: 3, borderSkipped: false, barThickness: 28,
+        hoverBackgroundColor: bridgeColors.map(c => c),
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false }, border: { display: false }, ticks: { font: { size: 10 } } },
+        y: { grid: gridStyle, border: { display: false }, ticks: { callback: (v) => '$' + v + 'M' }, suggestedMin: 150 }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (items) => {
+              const i = items[0].dataIndex;
+              const fullNames = ['Plan', 'Enterprise deal slips', 'Services delayed',
+                                 'SMB churn', 'Mid-market under-attainment', 'Actual'];
+              return fullNames[i];
+            },
+            label: (ctx) => {
+              const i = ctx.dataIndex;
+              if (i === 0) return '  Plan: $184.0M';
+              if (i === 5) return '  Actual: $162.0M';
+              return '  Impact: $' + bridgeDeltas[i].toFixed(1) + 'M';
+            },
+            afterBody: (items) => {
+              const i = items[0].dataIndex;
+              if (i === 0 || i === 5) return ['  Reference point'];
+              const share = (Math.abs(bridgeDeltas[i]) / totalGap * 100).toFixed(1);
+              return ['  Running total: $' + bridgeRunning[i].toFixed(1) + 'M',
+                      '  Share of gap: ' + share + '%'];
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // P2: Forecast by scenario
+  new Chart(document.getElementById('ch_forecast'), {
+    type: 'line',
+    data: {
+      labels: ['Q1 2026','Q2 2026','Q3 2026','Q4 2026'],
+      datasets: [
+        { label: 'Downside', data: [38.27, 39.96, 41.65, 40.93], borderColor: SLATE, backgroundColor: 'transparent', borderWidth: 2, tension: 0.25, pointRadius: 3, pointBackgroundColor: SLATE, pointHoverRadius: 6 },
+        { label: 'Base',     data: [42.18, 44.71, 47.27, 48.60], borderColor: ACCENT, backgroundColor: 'rgba(251, 146, 60, 0.10)', fill: true, borderWidth: 2, tension: 0.25, pointRadius: 3, pointBackgroundColor: ACCENT, pointHoverRadius: 6 },
+        { label: 'Upside',   data: [45.79, 49.18, 52.79, 55.26], borderColor: TEAL, backgroundColor: 'transparent', borderWidth: 2, tension: 0.25, pointRadius: 3, pointBackgroundColor: TEAL, pointHoverRadius: 6 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: { grid: { display: false }, border: { display: false } },
+        y: { grid: gridStyle, border: { display: false }, ticks: { callback: (v) => '$' + v + 'M' } }
+      },
+      plugins: {
+        legend: { display: true, position: 'bottom', align: 'start',
+                  labels: { boxWidth: 10, boxHeight: 10, padding: 12, font: { size: 11 }, color: INK_SOFT, usePointStyle: true } },
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label,
+            label: (ctx) => '  ' + ctx.dataset.label + ': $' + ctx.parsed.y.toFixed(2) + 'M',
+            footer: (items) => {
+              const sorted = [...items].sort((a, b) => b.parsed.y - a.parsed.y);
+              const range = sorted[0].parsed.y - sorted[sorted.length - 1].parsed.y;
+              return 'Spread: $' + range.toFixed(1) + 'M across scenarios';
+            }
+          }
+        }
+      }
+    },
+    plugins: [crosshairPlugin]
+  });
+
+  // P2: Op margin by scenario
+  const marginScenarios = [33.4, 41.4, 47.0];
+  const revenueScenarios = [160.81, 182.76, 203.02];
+  const oiScenarios = [53.71, 75.67, 95.42];
+  new Chart(document.getElementById('ch_margin'), {
+    type: 'bar',
+    data: {
+      labels: ['Downside','Base','Upside'],
+      datasets: [{
+        label: 'Operating margin',
+        data: marginScenarios,
+        backgroundColor: [SLATE, ACCENT, TEAL],
+        borderRadius: 4, borderSkipped: false, barThickness: 40,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false }, border: { display: false } },
+        y: { grid: gridStyle, border: { display: false }, max: 60, ticks: { callback: (v) => v + '%' } }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label + ' scenario',
+            label: (ctx) => '  Operating margin: ' + ctx.parsed.y + '%',
+            afterBody: (items) => {
+              const i = items[0].dataIndex;
+              return ['  Revenue: $' + revenueScenarios[i].toFixed(1) + 'M',
+                      '  Op income: $' + oiScenarios[i].toFixed(1) + 'M'];
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // P3: Aging buckets
+  const agingData = [190239, 125852, 23032, 29143];
+  const agingCounts = [67, 36, 6, 5];
+  const agingTotal = agingData.reduce((a, b) => a + b, 0);
+  new Chart(document.getElementById('ch_aging'), {
+    type: 'bar',
+    data: {
+      labels: ['Current','1-30d','31-60d','60+d'],
+      datasets: [{
+        label: 'Outstanding',
+        data: agingData,
+        backgroundColor: [GREEN, AMBER, ACCENT, ROSE],
+        borderRadius: 4, borderSkipped: false, barThickness: 36,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false }, border: { display: false } },
+        y: { grid: gridStyle, border: { display: false }, ticks: { callback: (v) => '$' + (v/1000) + 'K' } }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label,
+            label: (ctx) => '  Outstanding: $' + ctx.parsed.y.toLocaleString(),
+            afterBody: (items) => {
+              const i = items[0].dataIndex;
+              const share = (items[0].parsed.y / agingTotal * 100).toFixed(1);
+              return ['  ' + agingCounts[i] + ' invoices',
+                      '  ' + share + '% of outstanding'];
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // P3: Status mix
+  const statusData = [210, 67, 41, 6];
+  const statusTotal = statusData.reduce((a, b) => a + b, 0);
+  new Chart(document.getElementById('ch_status'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Paid','Outstanding','Overdue','Scheduled'],
+      datasets: [{
+        data: statusData,
+        backgroundColor: [GREEN, SLATE, ROSE, AMBER],
+        borderWidth: 2, borderColor: '#1f1f23',
+        hoverOffset: 8,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '62%',
+      plugins: {
+        legend: { display: true, position: 'right', align: 'center',
+                  labels: { boxWidth: 10, boxHeight: 10, padding: 8, font: { size: 10 }, color: INK_SOFT, usePointStyle: true } },
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label,
+            label: (ctx) => '  ' + ctx.parsed + ' invoices',
+            afterBody: (items) => {
+              const share = (items[0].parsed / statusTotal * 100).toFixed(1);
+              return ['  ' + share + '% of total ledger'];
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // P4: Reconciliation trend
+  const reconData = [96.4, 97.1, 98.0, 98.6, 99.0, 99.2];
+  const reconMonths = ['Feb','Mar','Apr','May','Jun','Jul'];
+  new Chart(document.getElementById('ch_recon'), {
+    type: 'line',
+    data: {
+      labels: reconMonths,
+      datasets: [{
+        label: 'Reconciliation accuracy',
+        data: reconData,
+        borderColor: GREEN, backgroundColor: 'rgba(74, 222, 128, 0.10)',
+        fill: true, tension: 0.3, borderWidth: 2.5,
+        pointRadius: 4, pointBackgroundColor: GREEN,
+        pointBorderColor: '#fff', pointBorderWidth: 2,
+        pointHoverRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: { grid: { display: false }, border: { display: false } },
+        y: { grid: gridStyle, border: { display: false }, min: 95, max: 100, ticks: { callback: (v) => v + '%' } }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label + ' 2025',
+            label: (ctx) => '  Accuracy: ' + ctx.parsed.y + '%',
+            afterBody: (items) => {
+              const i = items[0].dataIndex;
+              if (i === 0) return ['  Baseline month'];
+              const delta = reconData[i] - reconData[i - 1];
+              const cumulative = reconData[i] - reconData[0];
+              return ['  MoM: ' + (delta >= 0 ? '+' : '') + delta.toFixed(1) + 'pp',
+                      '  Since Feb: +' + cumulative.toFixed(1) + 'pp'];
+            }
+          }
+        }
+      }
+    },
+    plugins: [crosshairPlugin]
+  });
+
+  // P4: Journal entries by category
+  const jeData = [624, 488, 312, 198, 148, 87];
+  const jeLabels = ['Sales','Expenses','Payroll','Adjusting','Closing','Accruals'];
+  const jeTotal = jeData.reduce((a, b) => a + b, 0);
+  new Chart(document.getElementById('ch_je'), {
+    type: 'bar',
+    data: {
+      labels: jeLabels,
+      datasets: [{
+        label: 'Entries',
+        data: jeData,
+        backgroundColor: [ACCENT, TEAL, PLUM, AMBER, SLATE, GREEN],
+        borderRadius: 3, borderSkipped: false, barThickness: 20,
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { grid: gridStyle, border: { display: false } },
+        y: { grid: { display: false }, border: { display: false } }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label,
+            label: (ctx) => '  ' + fmt.int(ctx.parsed.x) + ' entries',
+            afterBody: (items) => {
+              const share = (items[0].parsed.x / jeTotal * 100).toFixed(1);
+              return ['  ' + share + '% of 6-month volume'];
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // P5: Gross profit by category
+  const gpData = [729868, 658806, 567378, 389036, 351767];
+  const gpLabels = ['Accessories','Beauty','Home Goods','Apparel','Electronics'];
+  const gpRevenue = [1937293, 1886061, 1458757, 1073626, 911908];
+  const gpTotal = gpData.reduce((a, b) => a + b, 0);
+  new Chart(document.getElementById('ch_gp'), {
+    type: 'bar',
+    data: {
+      labels: gpLabels,
+      datasets: [{
+        label: 'Gross profit',
+        data: gpData,
+        backgroundColor: [ACCENT, TEAL, PLUM, AMBER, SLATE],
+        borderRadius: 3, borderSkipped: false, barThickness: 24,
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { grid: gridStyle, border: { display: false }, ticks: { callback: (v) => '$' + (v/1000) + 'K' } },
+        y: { grid: { display: false }, border: { display: false } }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label,
+            label: (ctx) => '  Gross profit: $' + ctx.parsed.x.toLocaleString(),
+            afterBody: (items) => {
+              const i = items[0].dataIndex;
+              const margin = (gpData[i] / gpRevenue[i] * 100).toFixed(1);
+              const share = (gpData[i] / gpTotal * 100).toFixed(1);
+              return ['  Revenue: $' + gpRevenue[i].toLocaleString(),
+                      '  Margin: ' + margin + '%',
+                      '  Share of GP: ' + share + '%'];
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // P5: Margin by category
+  const marginData = [38.9, 38.6, 37.7, 36.2, 34.9];
+  const marginLabels = ['Home Goods','Electronics','Accessories','Apparel','Beauty'];
+  const marginAvg = (marginData.reduce((a, b) => a + b, 0) / marginData.length);
+  new Chart(document.getElementById('ch_marginbycat'), {
+    type: 'bar',
+    data: {
+      labels: marginLabels,
+      datasets: [{
+        label: 'Gross margin',
+        data: marginData,
+        backgroundColor: TEAL,
+        borderRadius: 4, borderSkipped: false, barThickness: 32,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { grid: { display: false }, border: { display: false } },
+        y: { grid: gridStyle, border: { display: false }, min: 30, max: 45, ticks: { callback: (v) => v + '%' } }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].label,
+            label: (ctx) => '  Gross margin: ' + ctx.parsed.y + '%',
+            afterBody: (items) => {
+              const diff = (items[0].parsed.y - marginAvg).toFixed(1);
+              const sign = diff >= 0 ? '+' : '';
+              return ['  vs portfolio avg (' + marginAvg.toFixed(1) + '%): ' + sign + diff + 'pp'];
+            }
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'marginAvgLine',
+      afterDraw: (chart) => {
+        const { ctx, chartArea: { left, right }, scales: { y } } = chart;
+        const yPos = y.getPixelForValue(marginAvg);
+        ctx.save();
+        ctx.strokeStyle = ACCENT; ctx.lineWidth = 1.5; ctx.setLineDash([4, 4]);
+        ctx.beginPath(); ctx.moveTo(left, yPos); ctx.lineTo(right, yPos); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = ACCENT; ctx.font = '500 10px Inter'; ctx.textAlign = 'right';
+        ctx.fillText('avg ' + marginAvg.toFixed(1) + '%', right - 4, yPos - 4);
+        ctx.restore();
+      }
+    }]
+  });
+
+  // P6 (FP&A) + P05 (D&A): AI Revenue & Pricing - scenarios (same chart on both tabs)
+  const pricingScenarios = ['ASP -3%', 'Base', 'ASP +3%', 'ASP +5%', 'ASP +10%'];
+  const pricingRevenue = [134.46, 136.15, 137.69, 138.64, 140.71];   // $M
+  const pricingGM = [49.78, 51.29, 52.71, 53.61, 55.72];              // %
+  const baseRevenue = 136.15;
+  const baseGM = 51.29;
+
+  function buildPricingRevenueChart(elId) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    new Chart(el, {
+      type: 'bar',
+      data: {
+        labels: pricingScenarios,
+        datasets: [{
+          label: 'Portfolio revenue',
+          data: pricingRevenue,
+          backgroundColor: pricingScenarios.map(s =>
+            s === 'Base' ? SLATE : (s.startsWith('ASP -') ? ROSE : TEAL)
+          ),
+          borderRadius: 4, borderSkipped: false, barThickness: 32,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        scales: {
+          x: { grid: { display: false }, border: { display: false } },
+          y: { grid: gridStyle, border: { display: false }, min: 130, max: 142,
+               ticks: { callback: (v) => '$' + v + 'M' } }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              title: (items) => items[0].label + ' scenario',
+              label: (ctx) => '  Revenue: $' + ctx.parsed.y + 'M',
+              afterBody: (items) => {
+                const i = items[0].dataIndex;
+                if (pricingScenarios[i] === 'Base') return ['  Reference scenario'];
+                const delta = pricingRevenue[i] - baseRevenue;
+                const pct = (delta / baseRevenue * 100);
+                const sign = delta >= 0 ? '+' : '';
+                return ['  vs Base: ' + sign + '$' + delta.toFixed(2) + 'M (' + sign + pct.toFixed(1) + '%)'];
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function buildPricingGMChart(elId) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    new Chart(el, {
+      type: 'line',
+      data: {
+        labels: pricingScenarios,
+        datasets: [{
+          label: 'Gross margin',
+          data: pricingGM,
+          borderColor: ACCENT,
+          backgroundColor: 'rgba(251, 146, 60, 0.12)',
+          fill: true, tension: 0.3, borderWidth: 2.5,
+          pointRadius: 5, pointBackgroundColor: ACCENT,
+          pointBorderColor: '#fff', pointBorderWidth: 2,
+          pointHoverRadius: 7,
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+          x: { grid: { display: false }, border: { display: false } },
+          y: { grid: gridStyle, border: { display: false }, min: 48, max: 57,
+               ticks: { callback: (v) => v + '%' } }
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              title: (items) => items[0].label,
+              label: (ctx) => '  Gross margin: ' + ctx.parsed.y + '%',
+              afterBody: (items) => {
+                const i = items[0].dataIndex;
+                if (pricingScenarios[i] === 'Base') return ['  Reference scenario'];
+                const delta = pricingGM[i] - baseGM;
+                const sign = delta >= 0 ? '+' : '';
+                return ['  vs Base: ' + sign + delta.toFixed(2) + 'pp'];
+              }
+            }
+          }
+        }
+      },
+      plugins: [crosshairPlugin]
+    });
+  }
+
+  // Render on Data & Analytics tab
+  buildPricingRevenueChart('ch_pricing_rev_ds');
+  buildPricingGMChart('ch_pricing_gm_ds');
+
+  // ═══════════════════════ SCROLL REVEAL + COUNTERS ═══════════════════════
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- Reveal observer ----
+  if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -60px 0px',  // fire slightly before the element fully enters
+    });
+
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
+      revealObserver.observe(el);
+    });
+  } else {
+    // Fallback: just show everything immediately if reduced motion or no observer
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
+      el.classList.add('is-visible');
+    });
+  }
+
+  // ---- Counter animation ----
+  function animateCounter(el) {
+    const target   = parseFloat(el.dataset.target);
+    const decimals = parseInt(el.dataset.decimals || '0', 10);
+    const suffix   = el.dataset.suffix || '';
+    const duration = 1400;  // ms
+    const start    = performance.now();
+
+    function tick(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // ease-out cubic: snappy at first, settles softly at the end
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = target * eased;
+      el.textContent = current.toFixed(decimals) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toFixed(decimals) + suffix;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function runVisibleCounters() {
+    document.querySelectorAll('.snapshot').forEach(snap => {
+      // Only animate counters in the currently visible snapshot
+      if (snap.offsetParent === null) return;
+      snap.querySelectorAll('.counter').forEach(c => {
+        if (c.dataset.animated) return;
+        c.dataset.animated = '1';
+        if (prefersReducedMotion) return;  // skip animation, leave final value
+        animateCounter(c);
+      });
+    });
+  }
+
+  // Run counters when the hero (which contains the snapshot) enters view.
+  // Since the hero is at the top, this fires immediately on load.
+  if ('IntersectionObserver' in window) {
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          runVisibleCounters();
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.snapshot').forEach(s => counterObserver.observe(s));
+  } else {
+    runVisibleCounters();
+  }
+
+  // When the user switches tracks, replay the now-visible counters.
+  trackButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Defer one frame so display:none/'' takes effect before measurement
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.snapshot .counter').forEach(c => {
+          if (c.offsetParent !== null) {
+            // Reset and re-run
+            delete c.dataset.animated;
+            c.textContent = '0';
+          }
+        });
+        runVisibleCounters();
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
